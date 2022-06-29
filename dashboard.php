@@ -38,7 +38,14 @@ $database = new database;
 $domainStatService = new DomainStatService($database);
 
 $domains = $domainStatService->getDomainsStat();
-
+$total = [
+    "users_count" => 0,
+    "cc_count" => 0,
+    "cr_count" => 0,
+    "gates_count" => 0,
+    "rooms_count" => 0,
+    "vmails_count" => 0,
+];
 require_once "resources/header.php";
 $document['title'] = $text['title-reseller_dashboard'];
 
@@ -62,5 +69,31 @@ echo "<th nowrap='nowrap'><a href='#'>".$text['table-sip_trunks']."</th>";
 echo "<th nowrap='nowrap'><a href='#'>".$text['table-meeting_rooms']."</th>";
 echo "<th nowrap='nowrap'><a href='#'>".$text['table-voicemail_trancriptions']."</th>";
 echo "</tr>\n";
+foreach ($domains as $domain){
+    echo "<tr>";
+    echo "<td>".$domain['domain_name']."</td>";
+    echo "<td>".(int)$domain['users_count']."</td>";
+    echo "<td>".(int)$domain['cc_count']."</td>";
+    echo "<td>".(int)$domain['cr_count']."</td>";
+    echo "<td>".(int)$domain['gates_count']."</td>";
+    echo "<td>".(int)$domain['rooms_count']."</td>";
+    echo "<td>".(int)$domain['vmails_count']."</td>";
+    echo "</tr>";
+    $total["users_count"] += (int)$domain['users_count'];
+    $total["cc_count"] += (int)$domain['cc_count'];
+    $total["cr_count"] += (int)$domain['cr_count'];
+    $total["gates_count"] += (int)$domain['gates_count'];
+    $total["rooms_count"] += (int)$domain['rooms_count'];
+    $total["vmails_count"] += (int)$domain['vmails_count'];
+}
+echo "<tr>";
+echo "<td>".$text['table-total']."</td>";
+echo "<td>".$total['users_count']."</td>";
+echo "<td>".$total['cc_count']."</td>";
+echo "<td>".$total['cr_count']."</td>";
+echo "<td>".$total['gates_count']."</td>";
+echo "<td>".$total['rooms_count']."</td>";
+echo "<td>".$total['vmails_count']."</td>";
+echo "</tr>";
 echo "</table>";
 require_once "resources/footer.php";

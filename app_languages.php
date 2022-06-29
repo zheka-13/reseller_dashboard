@@ -9,3 +9,4 @@ $text['table-call_recordings']['en-us'] = "Call recordings";
 $text['table-sip_trunks']['en-us'] = "SIP trunks";
 $text['table-meeting_rooms']['en-us'] = "Meeting rooms";
 $text['table-voicemail_trancriptions']['en-us'] = "Voicemail transcriptions";
+$text['table-total']['en-us'] = "Total";
