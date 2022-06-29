@@ -13,5 +13,6 @@ $apps[$x]['description']['en-us'] = "";
 //permission details
 $y = 0;
 $apps[$x]['permissions'][$y]['name'] = "reseller_dashboard_view";
+$apps[$x]['permissions'][$y]['menu']['uuid'] = "7f7e8782-fb1e-4d1c-aaba-8c2a32a8001a";
 $apps[$x]['permissions'][$y]['groups'][] = "superadmin";
 $apps[$x]['permissions'][$y]['groups'][] = "admin";
