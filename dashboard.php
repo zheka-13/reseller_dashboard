@@ -39,11 +39,25 @@ $domainStatService = new DomainStatService();
 require_once "resources/header.php";
 $document['title'] = $text['title-reseller_dashboard'];
 
-echo "<h1>Table sample</h1>";
+echo "<h3>".$text['title-reseller_dashboard']."</h3>";
+
+echo "<div class='action_bar' id='action_bar'>";
+echo "<div class='heading'><b>".$text['title-domain_statistics']."</b></div>";
+echo "<div class='actions'>";
+echo button::create(['type'=>'button','label'=>$text['button-export'],'icon'=>$_SESSION['theme']['button_icon_download'],'id'=>'btn_export','link'=>'export.php']);
+echo "</div>";
+echo "<div style='clear: both;'></div>";
+echo "</div>";
 
 echo "<table class='tr_hover' width='100%' border='0' cellpadding='0' cellspacing='0'>\n";
 echo "<tr>\n";
-echo th_order_by('test', 'test', 'test', 'asc');
+echo "<th nowrap='nowrap'><a href='#'>".$text['table-domain']."</th>";
+echo "<th nowrap='nowrap'><a href='#'>".$text['table-pbx_users']."</th>";
+echo "<th nowrap='nowrap'><a href='#'>".$text['table-call_centers']."</th>";
+echo "<th nowrap='nowrap'><a href='#'>".$text['table-call_recordings']."</th>";
+echo "<th nowrap='nowrap'><a href='#'>".$text['table-sip_trunks']."</th>";
+echo "<th nowrap='nowrap'><a href='#'>".$text['table-meeting_rooms']."</th>";
+echo "<th nowrap='nowrap'><a href='#'>".$text['table-voicemail_trancriptions']."</th>";
 echo "</tr>\n";
 echo "</table>";
 require_once "resources/footer.php";
