@@ -49,6 +49,9 @@ $total = [
 require_once "resources/header.php";
 $document['title'] = $text['title-reseller_dashboard'];
 
+echo "<script src='/resources/chartjs/chart.min.js'></script>";
+
+
 echo "<h3>".$text['title-reseller_dashboard']."</h3>";
 
 echo "<div class='action_bar' id='action_bar'>";
