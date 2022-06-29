@@ -70,7 +70,7 @@ echo "<th nowrap='nowrap'><a href='#'>".$text['table-meeting_rooms']."</th>";
 echo "<th nowrap='nowrap'><a href='#'>".$text['table-voicemail_trancriptions']."</th>";
 echo "</tr>\n";
 foreach ($domains as $domain){
-    echo "<tr>";
+    echo "<tr class='list-row'>";
     echo "<td>".$domain['domain_name']."</td>";
     echo "<td>".(int)$domain['users_count']."</td>";
     echo "<td>".(int)$domain['cc_count']."</td>";
@@ -86,14 +86,14 @@ foreach ($domains as $domain){
     $total["rooms_count"] += (int)$domain['rooms_count'];
     $total["vmails_count"] += (int)$domain['vmails_count'];
 }
-echo "<tr>";
-echo "<td>".$text['table-total']."</td>";
-echo "<td>".$total['users_count']."</td>";
-echo "<td>".$total['cc_count']."</td>";
-echo "<td>".$total['cr_count']."</td>";
-echo "<td>".$total['gates_count']."</td>";
-echo "<td>".$total['rooms_count']."</td>";
-echo "<td>".$total['vmails_count']."</td>";
+echo "<tr class='list-row'>";
+echo "<td><b>".$text['table-total']."</b></td>";
+echo "<td><b>".$total['users_count']."</b></td>";
+echo "<td><b>".$total['cc_count']."</b></td>";
+echo "<td><b>".$total['cr_count']."</b></td>";
+echo "<td><b>".$total['gates_count']."</b></td>";
+echo "<td><b>".$total['rooms_count']."</b></td>";
+echo "<td><b>".$total['vmails_count']."</b></td>";
 echo "</tr>";
 echo "</table>";
 require_once "resources/footer.php";
