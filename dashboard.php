@@ -35,7 +35,35 @@ $language = new text;
 $text = $language->get();
 $database = new database;
 
+$graph_types = [
+    'extension', 'user', 'device', 'destination', 'queue', 'voicemail'
+];
+$periods = [7, 30, 60];
+
+if (!empty($_GET['graph_type']) && !in_array($_GET['graph_type'], $graph_types)){
+    unset($_SESSION['graph_type']);
+}
+if (!empty($_GET['period']) && !in_array($_GET['period'], $periods)){
+    unset($_SESSION['period']);
+}
+
+if (empty($_SESSION['period'])){
+    $_SESSION['period'] = 7;
+}
+if (empty($_SESSION['graph_type'])){
+    $_SESSION['graph_type'] = 'extension';
+}
+
+if (!empty($_GET['graph_type']) && in_array($_GET['graph_type'], $graph_types)){
+    $_SESSION['graph_type'] = $_GET['graph_type'];
+}
+if (!empty($_GET['period']) && in_array($_GET['period'], $periods)){
+    $_SESSION['period'] = $_GET['period'];
+}
+
+
 $domainStatService = new DomainStatService($database);
+
 
 $domains = $domainStatService->getDomainsStat();
 $total = [
@@ -99,4 +127,25 @@ echo "<td><b>".$total['rooms_count']."</b></td>";
 echo "<td><b>".$total['vmails_count']."</b></td>";
 echo "</tr>";
 echo "</table>";
+
+echo "<hr>";
+
+echo "<div class='action_bar' id='action_bar'>";
+echo "<div class='heading'><b>".$text['title-graph']."</b></div>";
+echo "<div class='actions'>";
+foreach  ($periods as $period){
+    echo button::create(['type'=>'button','label'=>$text['button-'.$period.'days'],'id'=>'btn_'.$period.'days','link'=>'dashboard.php?period='.$period]);
+}
+
+echo "<form id='form_graph_type' class='inline' method='get'>";
+echo "<select class='formfld' name='graph_type' id='graph_type' style='width: auto; margin-left: 15px;' 
+        onchange='this.form.submit()'>";
+    foreach ($graph_types as $type){
+        echo "<option ".($_SESSION['graph_type'] == $type ? "selected" : "")." value='".$type."'>".$text['graph-'.$type]."</option>";
+    }
+echo "</select></form>";
+echo "</div>";
+echo "<div style='clear: both;'></div>";
+echo "</div>";
+
 require_once "resources/footer.php";
