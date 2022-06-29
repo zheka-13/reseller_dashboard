@@ -22,6 +22,7 @@
 include "root.php";
 require_once "resources/require.php";
 require_once "resources/check_auth.php";
+require_once "resources/check_auth.php";
 
 if (permission_exists('reseller_dashboard_view')) {
     //access granted
@@ -32,6 +33,9 @@ else {
 }
 $language = new text;
 $text = $language->get();
+
+$domainStatService = new DomainStatService();
+
 require_once "resources/header.php";
 $document['title'] = $text['title-reseller_dashboard'];
 
