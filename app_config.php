@@ -1,7 +1,7 @@
 <?php
 //application details
 $apps[$x]['name'] = "Reseller Dashboard";
-$apps[$x]['uuid'] = "ad1fb513-4910-4329-addf-763efdf11961 ";
+$apps[$x]['uuid'] = "ad1fb513-4910-4329-addf-763efdf11961";
 $apps[$x]['category'] = "";
 $apps[$x]['subcategory'] = "";
 $apps[$x]['version'] = "";
