@@ -134,7 +134,12 @@ echo "<div class='action_bar' id='action_bar'>";
 echo "<div class='heading'><b>".$text['title-graph']."</b></div>";
 echo "<div class='actions'>";
 foreach  ($periods as $period){
-    echo button::create(['type'=>'button','label'=>$text['button-'.$period.'days'],'id'=>'btn_'.$period.'days','link'=>'dashboard.php?period='.$period]);
+    echo button::create([
+        'type' => 'button',
+        'label' => $text['button-'.$period.'days'],
+        'class' => ($_SESSION['period'] == $period ? "success" : "info"),
+        'id' => 'btn_'.$period.'days','link'=>'dashboard.php?period='.$period
+    ]);
 }
 
 echo "<form id='form_graph_type' class='inline' method='get'>";
