@@ -17,3 +17,6 @@ $text['graph-destination']['en-us'] = "Destinations";
 $text['graph-device']['en-us'] = "Devices";
 $text['graph-queue']['en-us'] = "CC Queues";
 $text['graph-voicemail']['en-us'] = "Voicemails";
+$text['button-7days']['en-us'] = "7 days";
+$text['button-30days']['en-us'] = "30 days";
+$text['button-60days']['en-us'] = "60 days";

@@ -128,7 +128,7 @@ echo "<td><b>".$total['vmails_count']."</b></td>";
 echo "</tr>";
 echo "</table>";
 
-echo "<hr>";
+echo "<br><hr><br>";
 
 echo "<div class='action_bar' id='action_bar'>";
 echo "<div class='heading'><b>".$text['title-graph']."</b></div>";
