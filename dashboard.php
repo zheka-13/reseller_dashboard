@@ -22,7 +22,6 @@
 include "root.php";
 require_once "resources/require.php";
 require_once "resources/check_auth.php";
-require_once "resources/paging.php";
 
 if (permission_exists('reseller_dashboard_view')) {
     //access granted
