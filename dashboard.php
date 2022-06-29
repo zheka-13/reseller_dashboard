@@ -33,8 +33,11 @@ else {
 }
 $language = new text;
 $text = $language->get();
+$database = new database;
 
-$domainStatService = new DomainStatService();
+$domainStatService = new DomainStatService($database);
+
+$domains = $domainStatService->getDomainsStat();
 
 require_once "resources/header.php";
 $document['title'] = $text['title-reseller_dashboard'];
