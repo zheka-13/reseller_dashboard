@@ -117,9 +117,16 @@ echo "<table class='main_table'>";
 echo "<tr>";
 echo "<td style='width:49%; padding:10px;vertical-align: top'>";
 echo "<div class='portlet_header'><span style='margin-left:20px'>".$text['title-domain_statistics']."</span>";
-echo "<span style='align-self: end'>";
-echo button::create(['type'=>'button','label'=>$text['button-export'],
-    'icon'=>$_SESSION['theme']['button_icon_download'],'id'=>'btn_export','link'=>'export.php']);
+echo "<span style='float:right;padding-right: 10px'>";
+echo button::create([
+        'type'=>'button',
+        'label'=>$text['button-export'],
+        'icon'=>$_SESSION['theme']['button_icon_download'],
+        'id'=>'btn_export',
+        'link'=>'export.php',
+        'style' => [
+            'background-image' => 'none'
+        ]]);
 echo "</span>";
 echo "</div>";
 echo  "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'>";
