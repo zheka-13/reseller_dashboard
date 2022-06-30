@@ -199,7 +199,6 @@ echo "</table>";
 echo  "</td>";
 echo "<td style='width:49%; padding:10px;vertical-align: top'>";
 echo "<div class='portlet_header'><span style='margin-left:20px'>".$text['title-graph']."</span></div>";
-echo "</td><td>";
 echo "<span>";
 foreach  ($periods as $period){
     echo button::create([
@@ -210,7 +209,9 @@ foreach  ($periods as $period){
     ]);
 }
 echo "</span>";
-echo "</td></tr></table>";
+echo "</td>";
+
+echo "</tr></table>";
 
 
 
