@@ -69,17 +69,17 @@ $domains = $domainStatService->getDomainsStat();
 $total = [
     "users_count" => 0,
     "cc_count" => 0,
-    "cr_count" => 0,
-    "gates_count" => 0,
-    "rooms_count" => 0,
+    "ext_count" => 0,
+    "dev_count" => 0,
+    "dest_count" => 0,
     "vmails_count" => 0,
 ];
 foreach ($domains as $domain){
     $total["users_count"] += (int)$domain['users_count'];
     $total["cc_count"] += (int)$domain['cc_count'];
-    $total["cr_count"] += (int)$domain['cr_count'];
-    $total["gates_count"] += (int)$domain['gates_count'];
-    $total["rooms_count"] += (int)$domain['rooms_count'];
+    $total["dev_count"] += (int)$domain['dev_count'];
+    $total["dest_count"] += (int)$domain['dest_count'];
+    $total["ext_count"] += (int)$domain['ext_count'];
     $total["vmails_count"] += (int)$domain['vmails_count'];
 }
 
@@ -103,13 +103,13 @@ require_once "resources/header.php";
             text-transform: uppercase;
             padding: 10px;
             color: gray;
+            font-family: Monaco, monospace;
         }
     </style>
 <?php
 $document['title'] = $text['title-reseller_dashboard'];
 
 echo "<script src='/resources/chartjs/chart.min.js'></script>";
-
 
 echo "<h3>".$text['title-reseller_dashboard']."</h3>";
 echo "<table class='main_table'>";
@@ -125,7 +125,30 @@ echo "<td class='portlet_table_cell'>".$text['table-devices']."</td>";
 echo "<td class='portlet_table_cell'>".$text['table-destinations']."</td>";
 echo "<td class='portlet_table_cell'>".$text['table-queues']."</td>";
 echo "<td class='portlet_table_cell'>".$text['table-voicemails']."</td>";
-echo "</tr></table>";
+echo "</tr>";
+echo "<tr>";
+echo "<td class='portlet_table_cell'>".$text['table-total']."</td>";
+echo "<td class='portlet_table_cell'>".$total['ext_count']."</td>";
+echo "<td class='portlet_table_cell'>".$total['users_count']."</td>";
+echo "<td class='portlet_table_cell'>".$total['dev_count']."</td>";
+echo "<td class='portlet_table_cell'>".$total['dest_count']."</td>";
+echo "<td class='portlet_table_cell'>".$total['cc_count']."</td>";
+echo "<td class='portlet_table_cell'>".$total['vmails_count']."</td>";
+echo "</tr>";
+foreach ($domains as $domain){
+    echo "<tr>";
+    echo "<td class='portlet_table_cell'>".$domain['domain_name']."</td>";
+    echo "<td class='portlet_table_cell'>".(!empty($domain['ext_count']) ? "<b>".$domain['ext_count']."</b>" : 0)."</td>";
+    echo "<td class='portlet_table_cell'>".(!empty($domain['users_count']) ? "<b>".$domain['users_count']."</b>" : 0)."</td>";
+    echo "<td class='portlet_table_cell'>".(!empty($domain['dev_count']) ? "<b>".$domain['dev_count']."</b>" : 0)."</td>";
+    echo "<td class='portlet_table_cell'>".(!empty($domain['dest_count']) ? "<b>".$domain['dest_count']."</b>" : 0)."</td>";
+    echo "<td class='portlet_table_cell'>".(!empty($domain['cc_count']) ? "<b>".$domain['cc_count']."</b>" : 0)."</td>";
+    echo "<td class='portlet_table_cell'>".(!empty($domain['vmails_count']) ? "<b>".$domain['vmails_count']."</b>" : 0)."</td>";
+    echo "</tr>";
+
+}
+
+echo "</table>";
 echo  "</td>";
 echo "<td style='width:49%; padding:10px;vertical-align: top'>";
 echo "<div class='portlet_header'><span style='margin-left:20px'>".$text['title-graph']."</span></div>";
