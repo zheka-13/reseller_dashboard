@@ -124,6 +124,24 @@ require_once "resources/header.php";
             vertical-align: middle;
             white-space: nowrap;
         }
+        button.btn-reseller_active {
+            height: 28px;
+            padding: 5px 5px;
+            border: 1px solid #242424;
+            -moz-border-radius: 3px 3px 3px 3px;
+            -webkit-border-radius: 3px 3px 3px 3px;
+            -khtml-border-radius: 3px 3px 3px 3px;
+            border-radius: 3px 3px 3px 3px;
+            background: lightgrey;
+            font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+            text-align: center;
+            text-transform: uppercase;
+            color: #000000;
+            font-weight: bold;
+            font-size: 11px;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
     </style>
 <?php
 $document['title'] = $text['title-reseller_dashboard'];
@@ -182,7 +200,16 @@ echo  "</td>";
 echo "<td style='width:49%; padding:10px;vertical-align: top'>";
 echo "<div class='portlet_header'><span style='margin-left:20px'>".$text['title-graph']."</span></div>";
 echo "</td><td>";
-
+echo "<span>";
+foreach  ($periods as $period){
+    echo button::create([
+        'type' => 'button',
+        'label' => $text['button-'.$period.'days'],
+        'class' => ($_SESSION['period'] == $period ? "reseller_active" : "reseller"),
+        'id' => 'btn_'.$period.'days','link'=>'dashboard.php?period='.$period
+    ]);
+}
+echo "</span>";
 echo "</td></tr></table>";
 
 
@@ -239,14 +266,6 @@ echo "<br><hr><br>";
 echo "<div class='action_bar' id='action_bar'>";
 echo "<div class='heading'><b>".."</b></div>";
 echo "<div class='actions'>";
-foreach  ($periods as $period){
-    echo button::create([
-        'type' => 'button',
-        'label' => $text['button-'.$period.'days'],
-        'class' => ($_SESSION['period'] == $period ? "success" : "info"),
-        'id' => 'btn_'.$period.'days','link'=>'dashboard.php?period='.$period
-    ]);
-}
 
 echo "<form id='form_graph_type' class='inline' method='get'>";
 echo "<select class='formfld' name='graph_type' id='graph_type' style='width: auto; margin-left: 15px;' 
