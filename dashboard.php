@@ -138,12 +138,12 @@ echo "</tr>";
 foreach ($domains as $domain){
     echo "<tr>";
     echo "<td class='portlet_table_cell'>".$domain['domain_name']."</td>";
-    echo "<td class='portlet_table_cell'>".(!empty($domain['ext_count']) ? "<b>".$domain['ext_count']."</b>" : 0)."</td>";
-    echo "<td class='portlet_table_cell'>".(!empty($domain['users_count']) ? "<b>".$domain['users_count']."</b>" : 0)."</td>";
-    echo "<td class='portlet_table_cell'>".(!empty($domain['dev_count']) ? "<b>".$domain['dev_count']."</b>" : 0)."</td>";
-    echo "<td class='portlet_table_cell'>".(!empty($domain['dest_count']) ? "<b>".$domain['dest_count']."</b>" : 0)."</td>";
-    echo "<td class='portlet_table_cell'>".(!empty($domain['cc_count']) ? "<b>".$domain['cc_count']."</b>" : 0)."</td>";
-    echo "<td class='portlet_table_cell'>".(!empty($domain['vmails_count']) ? "<b>".$domain['vmails_count']."</b>" : 0)."</td>";
+    echo "<td class='portlet_table_cell'>".(!empty($domain['ext_count']) ? "<strong>".$domain['ext_count']."</strong>" : 0)."</td>";
+    echo "<td class='portlet_table_cell'>".(!empty($domain['users_count']) ? "<strong>".$domain['users_count']."</strong>" : 0)."</td>";
+    echo "<td class='portlet_table_cell'>".(!empty($domain['dev_count']) ? "<strong>".$domain['dev_count']."</strong>" : 0)."</td>";
+    echo "<td class='portlet_table_cell'>".(!empty($domain['dest_count']) ? "<strong>".$domain['dest_count']."</strong>" : 0)."</td>";
+    echo "<td class='portlet_table_cell'>".(!empty($domain['cc_count']) ? "<strong>".$domain['cc_count']."</strong>" : 0)."</td>";
+    echo "<td class='portlet_table_cell'>".(!empty($domain['vmails_count']) ? "<strong>".$domain['vmails_count']."</strong>" : 0)."</td>";
     echo "</tr>";
 
 }
