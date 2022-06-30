@@ -74,16 +74,70 @@ $total = [
     "rooms_count" => 0,
     "vmails_count" => 0,
 ];
+foreach ($domains as $domain){
+    $total["users_count"] += (int)$domain['users_count'];
+    $total["cc_count"] += (int)$domain['cc_count'];
+    $total["cr_count"] += (int)$domain['cr_count'];
+    $total["gates_count"] += (int)$domain['gates_count'];
+    $total["rooms_count"] += (int)$domain['rooms_count'];
+    $total["vmails_count"] += (int)$domain['vmails_count'];
+}
+
 require_once "resources/header.php";
+?>
+    <style>
+        .main_table{
+            width:90%;
+            font-family: Monaco, monospace;
+        }
+        .portlet_header{
+            line-height:70px;
+            height:70px;
+            color:white;
+            width:100%;
+            background-color:#2c3858;
+            border-radius: 10px 10px 0px 0px;
+        }
+        .portlet_table_cell{
+            border-bottom: 1px solid lightgrey;
+            text-transform: uppercase;
+            padding: 10px;
+            color: gray;
+        }
+    </style>
+<?php
 $document['title'] = $text['title-reseller_dashboard'];
 
 echo "<script src='/resources/chartjs/chart.min.js'></script>";
 
 
 echo "<h3>".$text['title-reseller_dashboard']."</h3>";
+echo "<table class='main_table'>";
+echo "<tr>";
+echo "<td style='width:49%; padding:10px;vertical-align: top'>";
+echo "<div class='portlet_header'><span style='margin-left:20px'>".$text['title-domain_statistics']."</span></div>";
+echo  "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'>";
+echo "<tr>";
+echo "<td class='portlet_table_cell'>".$text['table-domain']."</td>";
+echo "<td class='portlet_table_cell'>".$text['table-extensions']."</td>";
+echo "<td class='portlet_table_cell'>".$text['table-users']."</td>";
+echo "<td class='portlet_table_cell'>".$text['table-devices']."</td>";
+echo "<td class='portlet_table_cell'>".$text['table-destinations']."</td>";
+echo "<td class='portlet_table_cell'>".$text['table-queues']."</td>";
+echo "<td class='portlet_table_cell'>".$text['table-voicemails']."</td>";
+echo "</tr></table>";
+echo  "</td>";
+echo "<td style='width:49%; padding:10px;vertical-align: top'>";
+echo "<div class='portlet_header'><span style='margin-left:20px'>".$text['title-graph']."</span></div>";
+echo "</td><td>";
 
+echo "</td></tr></table>";
+
+
+
+/*
 echo "<div class='action_bar' id='action_bar'>";
-echo "<div class='heading'><b>".$text['title-domain_statistics']."</b></div>";
+echo "<div class='heading'><b>".."</b></div>";
 echo "<div class='actions'>";
 echo button::create(['type'=>'button','label'=>$text['button-export'],'icon'=>$_SESSION['theme']['button_icon_download'],'id'=>'btn_export','link'=>'export.php']);
 echo "</div>";
@@ -93,12 +147,12 @@ echo "</div>";
 echo "<table class='tr_hover' width='100%' border='0' cellpadding='0' cellspacing='0'>\n";
 echo "<tr>\n";
 echo "<th nowrap='nowrap'><a href='#'>".$text['table-domain']."</th>";
-echo "<th nowrap='nowrap'><a href='#'>".$text['table-pbx_users']."</th>";
-echo "<th nowrap='nowrap'><a href='#'>".$text['table-call_centers']."</th>";
-echo "<th nowrap='nowrap'><a href='#'>".$text['table-call_recordings']."</th>";
-echo "<th nowrap='nowrap'><a href='#'>".$text['table-sip_trunks']."</th>";
-echo "<th nowrap='nowrap'><a href='#'>".$text['table-meeting_rooms']."</th>";
-echo "<th nowrap='nowrap'><a href='#'>".$text['table-voicemail_trancriptions']."</th>";
+echo "<th nowrap='nowrap'><a href='#'>".$text['table-extensions']."</th>";
+echo "<th nowrap='nowrap'><a href='#'>".$text['table-users']."</th>";
+echo "<th nowrap='nowrap'><a href='#'>".$text['table-devices']."</th>";
+echo "<th nowrap='nowrap'><a href='#'>".$text['table-destinations']."</th>";
+echo "<th nowrap='nowrap'><a href='#'>".$text['table-queues']."</th>";
+echo "<th nowrap='nowrap'><a href='#'>".$text['table-voicemails']."</th>";
 echo "</tr>\n";
 foreach ($domains as $domain){
     echo "<tr class='list-row'>";
@@ -131,7 +185,7 @@ echo "</table>";
 echo "<br><hr><br>";
 
 echo "<div class='action_bar' id='action_bar'>";
-echo "<div class='heading'><b>".$text['title-graph']."</b></div>";
+echo "<div class='heading'><b>".."</b></div>";
 echo "<div class='actions'>";
 foreach  ($periods as $period){
     echo button::create([
@@ -152,5 +206,5 @@ echo "</select></form>";
 echo "</div>";
 echo "<div style='clear: both;'></div>";
 echo "</div>";
-
+*/
 require_once "resources/footer.php";

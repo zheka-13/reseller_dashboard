@@ -1,14 +1,14 @@
 <?php
-$text['title-reseller_dashboard']['en-us'] = "Reseller Dashboard";
+$text['title-reseller_dashboard']['en-us'] = "Reseller Statistics";
 $text['title-domain_statistics']['en-us'] = "Domain Statistics";
 $text['button-export']['en-us'] = "Export";
 $text['table-domain']['en-us'] = "Domain";
-$text['table-pbx_users']['en-us'] = "PBX users";
-$text['table-call_centers']['en-us'] = "Call centers";
-$text['table-call_recordings']['en-us'] = "Call recordings";
-$text['table-sip_trunks']['en-us'] = "SIP trunks";
-$text['table-meeting_rooms']['en-us'] = "Meeting rooms";
-$text['table-voicemail_trancriptions']['en-us'] = "Voicemail transcriptions";
+$text['table-extensions']['en-us'] = "Extensions";
+$text['table-users']['en-us'] = "Users";
+$text['table-devices']['en-us'] = "Devices";
+$text['table-destinations']['en-us'] = "Destinations";
+$text['table-queues']['en-us'] = "CC Queues";
+$text['table-voicemails']['en-us'] = "Voicemails";
 $text['table-total']['en-us'] = "Total";
 $text['title-graph']['en-us'] = "Reseller graph";
 $text['graph-extension']['en-us'] = "Extensions";
