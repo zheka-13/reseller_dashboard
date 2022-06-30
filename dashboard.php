@@ -106,6 +106,24 @@ require_once "resources/header.php";
             color: gray;
             font-family: Monaco, monospace;
         }
+        button.btn-reseller {
+            height: 28px;
+            padding: 5px 5px;
+            border: 1px solid #242424;
+            -moz-border-radius: 3px 3px 3px 3px;
+            -webkit-border-radius: 3px 3px 3px 3px;
+            -khtml-border-radius: 3px 3px 3px 3px;
+            border-radius: 3px 3px 3px 3px;
+            background: white;
+            font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+            text-align: center;
+            text-transform: uppercase;
+            color: #000000;
+            font-weight: bold;
+            font-size: 11px;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
     </style>
 <?php
 $document['title'] = $text['title-reseller_dashboard'];
@@ -124,9 +142,7 @@ echo button::create([
         'icon'=>$_SESSION['theme']['button_icon_download'],
         'id'=>'btn_export',
         'link'=>'export.php',
-        'style' => [
-            'background-image' => 'none'
-        ]]);
+        'class' => 'reseller']);
 echo "</span>";
 echo "</div>";
 echo  "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'>";
