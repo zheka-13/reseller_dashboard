@@ -198,7 +198,7 @@ foreach ($domains as $domain){
 echo "</table>";
 echo  "</td>";
 echo "<td style='width:49%; padding:10px;vertical-align: top'>";
-echo "<div class='portlet_header'><span style='margin-left:20px'>".$text['title-graph']."</span></div>";
+echo "<div class='portlet_header' style='margin-bottom: 10px'><span style='margin-left:20px'>".$text['title-graph']."</span></div>";
 echo "<span>";
 foreach  ($periods as $period){
     echo button::create([
@@ -208,6 +208,15 @@ foreach  ($periods as $period){
         'id' => 'btn_'.$period.'days','link'=>'dashboard.php?period='.$period
     ]);
 }
+echo "</span>";
+echo "<span style='float:right;padding-right: 10px'>";
+echo "<form id='form_graph_type' class='inline' method='get'>";
+echo "<select class='formfld' name='graph_type' id='graph_type' style='width: auto; margin-left: 15px;' 
+        onchange='this.form.submit()'>";
+foreach ($graph_types as $type){
+    echo "<option ".($_SESSION['graph_type'] == $type ? "selected" : "")." value='".$type."'>".$text['graph-'.$type]."</option>";
+}
+echo "</select></form>";
 echo "</span>";
 echo "</td>";
 
@@ -268,13 +277,6 @@ echo "<div class='action_bar' id='action_bar'>";
 echo "<div class='heading'><b>".."</b></div>";
 echo "<div class='actions'>";
 
-echo "<form id='form_graph_type' class='inline' method='get'>";
-echo "<select class='formfld' name='graph_type' id='graph_type' style='width: auto; margin-left: 15px;' 
-        onchange='this.form.submit()'>";
-    foreach ($graph_types as $type){
-        echo "<option ".($_SESSION['graph_type'] == $type ? "selected" : "")." value='".$type."'>".$text['graph-'.$type]."</option>";
-    }
-echo "</select></form>";
 echo "</div>";
 echo "<div style='clear: both;'></div>";
 echo "</div>";
