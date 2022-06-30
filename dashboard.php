@@ -96,6 +96,7 @@ require_once "resources/header.php";
             color:white;
             width:100%;
             background-color:#2c3858;
+            font-family: Monaco, monospace;
             border-radius: 10px 10px 0px 0px;
         }
         .portlet_table_cell{
@@ -115,7 +116,12 @@ echo "<h3>".$text['title-reseller_dashboard']."</h3>";
 echo "<table class='main_table'>";
 echo "<tr>";
 echo "<td style='width:49%; padding:10px;vertical-align: top'>";
-echo "<div class='portlet_header'><span style='margin-left:20px'>".$text['title-domain_statistics']."</span></div>";
+echo "<div class='portlet_header'><span style='margin-left:20px'>".$text['title-domain_statistics']."</span>";
+echo "<span style='align-self: end'>";
+echo button::create(['type'=>'button','label'=>$text['button-export'],
+    'icon'=>$_SESSION['theme']['button_icon_download'],'id'=>'btn_export','link'=>'export.php']);
+echo "</span>";
+echo "</div>";
 echo  "<table border='0' cellpadding='0' cellspacing='0' style='width:100%;'>";
 echo "<tr>";
 echo "<td class='portlet_table_cell'>".$text['table-domain']."</td>";
