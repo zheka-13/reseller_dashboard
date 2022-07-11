@@ -149,9 +149,10 @@ $document['title'] = $text['title-reseller_dashboard'];
 echo "<script src='/resources/chartjs/chart.min.js'></script>";
 
 echo "<h3>".$text['title-reseller_dashboard']."</h3>";
+
 echo "<table class='main_table'>";
 echo "<tr>";
-echo "<td style='width:49%; padding:10px;vertical-align: top'>";
+echo "<td style='width:98%; padding:10px;vertical-align: top'>";
 echo "<div class='portlet_header'><span style='margin-left:20px'>".$text['title-domain_statistics']."</span>";
 echo "<span style='float:right;padding-right: 10px'>";
 echo button::create([
@@ -197,88 +198,199 @@ foreach ($domains as $domain){
 
 echo "</table>";
 echo  "</td>";
-echo "<td style='width:49%; padding:10px;vertical-align: top'>";
+echo  "</tr>";
+echo "</table>";
+
+echo "<table class='main_table'>";
+echo "<tr>";
+echo "<td style='width:98%; padding:10px;vertical-align: top'>";
 echo "<div class='portlet_header' style='margin-bottom: 10px'><span style='margin-left:20px'>".$text['title-graph']."</span></div>";
-echo "<span>";
-foreach  ($periods as $period){
-    echo button::create([
-        'type' => 'button',
-        'label' => $text['button-'.$period.'days'],
-        'class' => ($_SESSION['period'] == $period ? "reseller_active" : "reseller"),
-        'id' => 'btn_'.$period.'days','link'=>'dashboard.php?period='.$period
-    ]);
-}
-echo "</span>";
-echo "<span style='float:right;padding-right: 10px'>";
-echo "<form id='form_graph_type' class='inline' method='get'>";
-echo "<select class='formfld' name='graph_type' id='graph_type' style='width: auto; margin-left: 15px;' 
-        onchange='this.form.submit()'>";
-foreach ($graph_types as $type){
-    echo "<option ".($_SESSION['graph_type'] == $type ? "selected" : "")." value='".$type."'>".$text['graph-'.$type]."</option>";
-}
-echo "</select></form>";
-echo "</span>";
+
+echo "<div ><canvas height='100px' id='HourChart'></canvas></div>";
+echo "<div ><canvas height='100px' id='DayChart'></canvas></div>";
 echo "</td>";
 
 echo "</tr></table>";
+//------------------- hourly data
 
-
-
-/*
-echo "<div class='action_bar' id='action_bar'>";
-echo "<div class='heading'><b>".."</b></div>";
-echo "<div class='actions'>";
-echo button::create(['type'=>'button','label'=>$text['button-export'],'icon'=>$_SESSION['theme']['button_icon_download'],'id'=>'btn_export','link'=>'export.php']);
-echo "</div>";
-echo "<div style='clear: both;'></div>";
-echo "</div>";
-
-echo "<table class='tr_hover' width='100%' border='0' cellpadding='0' cellspacing='0'>\n";
-echo "<tr>\n";
-echo "<th nowrap='nowrap'><a href='#'>".$text['table-domain']."</th>";
-echo "<th nowrap='nowrap'><a href='#'>".$text['table-extensions']."</th>";
-echo "<th nowrap='nowrap'><a href='#'>".$text['table-users']."</th>";
-echo "<th nowrap='nowrap'><a href='#'>".$text['table-devices']."</th>";
-echo "<th nowrap='nowrap'><a href='#'>".$text['table-destinations']."</th>";
-echo "<th nowrap='nowrap'><a href='#'>".$text['table-queues']."</th>";
-echo "<th nowrap='nowrap'><a href='#'>".$text['table-voicemails']."</th>";
-echo "</tr>\n";
-foreach ($domains as $domain){
-    echo "<tr class='list-row'>";
-    echo "<td>".$domain['domain_name']."</td>";
-    echo "<td>".(int)$domain['users_count']."</td>";
-    echo "<td>".(int)$domain['cc_count']."</td>";
-    echo "<td>".(int)$domain['cr_count']."</td>";
-    echo "<td>".(int)$domain['gates_count']."</td>";
-    echo "<td>".(int)$domain['rooms_count']."</td>";
-    echo "<td>".(int)$domain['vmails_count']."</td>";
-    echo "</tr>";
-    $total["users_count"] += (int)$domain['users_count'];
-    $total["cc_count"] += (int)$domain['cc_count'];
-    $total["cr_count"] += (int)$domain['cr_count'];
-    $total["gates_count"] += (int)$domain['gates_count'];
-    $total["rooms_count"] += (int)$domain['rooms_count'];
-    $total["vmails_count"] += (int)$domain['vmails_count'];
+$query = "select date_trunc('hour', dtime)::timestamp(0) as dtime from (select * from generate_series(now()-'1 day'::interval, now(), '1 hour') as dtime) d
+order by dtime asc";
+$data = $database->select($query);
+$hours = [];
+foreach ($data as $row){
+    $hours[] = $row['dtime'];
 }
-echo "<tr class='list-row'>";
-echo "<td><b>".$text['table-total']."</b></td>";
-echo "<td><b>".$total['users_count']."</b></td>";
-echo "<td><b>".$total['cc_count']."</b></td>";
-echo "<td><b>".$total['cr_count']."</b></td>";
-echo "<td><b>".$total['gates_count']."</b></td>";
-echo "<td><b>".$total['rooms_count']."</b></td>";
-echo "<td><b>".$total['vmails_count']."</b></td>";
-echo "</tr>";
-echo "</table>";
 
-echo "<br><hr><br>";
+$query = "SELECT direction, count(*) as cnt, date_trunc('hour', start_stamp)::timestamp(0) as dtime  FROM public.v_xml_cdr
+    where direction in ('inbound', 'outbound') and start_stamp > now()-'1 day'::interval
+    group by direction,  date_trunc('hour', start_stamp)
+    ORDER BY dtime ASC";
 
-echo "<div class='action_bar' id='action_bar'>";
-echo "<div class='heading'><b>".."</b></div>";
-echo "<div class='actions'>";
+$data = $database->select($query);
+$call_data = [];
+foreach ($data as $row){
+    if (!isset($call_data[$row['dtime']])){
+        $call_data[$row['dtime']] = [];
+    }
+    if (!isset($call_data[$row['dtime']][$row['direction']])){
+        $call_data[$row['dtime']][$row['direction']] = $row['cnt'];
+    }
+}
+$hour_inbound = [];
+$hour_outbound = [];
+foreach ($hours as $hour){
+    if (isset($call_data[$hour]['inbound'])){
+        $hour_inbound[] = $call_data[$hour]['inbound'];
+    }
+    else{
+        $hour_inbound[] = 0;
+    }
+    if (isset($call_data[$hour]['outbound'])){
+        $hour_outbound[] = $call_data[$hour]['outbound'];
+    }
+    else{
+        $hour_outbound[] = 0;
+    }
+}
+//-----------------------------------------------------
+//----------------------dayly calls
+$query = "select dtime::date as dtime from (select * from generate_series(now()-'10 days'::interval, now(), '1 day') as dtime) d
+order by dtime asc";
+$data = $database->select($query);
+$days = [];
+foreach ($data as $row){
+    $days[] = $row['dtime'];
+}
 
-echo "</div>";
-echo "<div style='clear: both;'></div>";
-echo "</div>";
-*/
+$query = "SELECT direction, count(*) as cnt, start_stamp::date as dtime  FROM public.v_xml_cdr
+    where direction in ('inbound', 'outbound') and start_stamp > now()-'10 days'::interval
+    group by direction,  start_stamp::date
+    ORDER BY dtime ASC";
+
+$data = $database->select($query);
+$call_data = [];
+foreach ($data as $row){
+    if (!isset($call_data[$row['dtime']])){
+        $call_data[$row['dtime']] = [];
+    }
+    if (!isset($call_data[$row['dtime']][$row['direction']])){
+        $call_data[$row['dtime']][$row['direction']] = $row['cnt'];
+    }
+}
+$day_inbound = [];
+$day_outbound = [];
+foreach ($days as $day){
+    if (isset($call_data[$day]['inbound'])){
+        $day_inbound[] = $call_data[$day]['inbound'];
+    }
+    else{
+        $day_inbound[] = 0;
+    }
+    if (isset($call_data[$day]['outbound'])){
+        $day_outbound[] = $call_data[$day]['outbound'];
+    }
+    else{
+        $day_outbound[] = 0;
+    }
+}
+
 require_once "resources/footer.php";
+?>
+<script language='JavaScript' type='text/javascript' src='/resources/chartjs/chart.min.js'></script>
+<script language='JavaScript' type='text/javascript' src='/resources/chartjs/chartjs-adapter-date-fns.bundle.min.js'></script>
+
+<script>
+    const hour_labels = <?php echo json_encode($hours); ?>;
+    const hour_data = {
+        labels: hour_labels,
+        datasets: [
+            {
+                label: 'Inbound calls',
+                data: <?php echo json_encode($hour_inbound); ?>,
+                backgroundColor: 'rgb(255, 99, 132)',
+            },
+            {
+                label: 'Outbound calls',
+                data: <?php echo json_encode($hour_outbound); ?>,
+                backgroundColor: 'rgb(54, 162, 235)',
+            },
+
+        ]
+    };
+
+    const hour_config = {
+        type: 'bar',
+        data: hour_data,
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Calls per hour (last 24 hours)'
+                }
+            }
+        }
+    };
+    const hourChart = new Chart(
+        document.getElementById('HourChart'),
+        hour_config
+    );
+
+    const day_labels = <?php echo json_encode($days); ?>;
+    const day_data = {
+        labels: day_labels,
+        datasets: [
+            {
+                label: 'Inbound calls',
+                data: <?php echo json_encode($day_inbound); ?>,
+                backgroundColor: 'rgb(255, 99, 132)',
+            },
+            {
+                label: 'Outbound calls',
+                data: <?php echo json_encode($day_outbound); ?>,
+                backgroundColor: 'rgb(54, 162, 235)',
+            },
+
+        ]
+    };
+
+    const day_config = {
+        type: 'bar',
+        data: day_data,
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Calls per day (last 10 days)'
+                }
+            }
+        }
+    };
+    const dayChart = new Chart(
+        document.getElementById('DayChart'),
+        day_config
+    );
+</script>
