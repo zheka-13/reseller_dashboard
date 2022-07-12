@@ -35,32 +35,6 @@ $language = new text;
 $text = $language->get();
 $database = new database;
 
-$graph_types = [
-    'extension', 'user', 'device', 'destination', 'queue', 'voicemail'
-];
-$periods = [7, 30, 60];
-
-if (!empty($_GET['graph_type']) && !in_array($_GET['graph_type'], $graph_types)){
-    unset($_SESSION['graph_type']);
-}
-if (!empty($_GET['period']) && !in_array($_GET['period'], $periods)){
-    unset($_SESSION['period']);
-}
-
-if (empty($_SESSION['period'])){
-    $_SESSION['period'] = 7;
-}
-if (empty($_SESSION['graph_type'])){
-    $_SESSION['graph_type'] = 'extension';
-}
-
-if (!empty($_GET['graph_type']) && in_array($_GET['graph_type'], $graph_types)){
-    $_SESSION['graph_type'] = $_GET['graph_type'];
-}
-if (!empty($_GET['period']) && in_array($_GET['period'], $periods)){
-    $_SESSION['period'] = $_GET['period'];
-}
-
 
 $domainStatService = new DomainStatService($database);
 
