@@ -118,13 +118,26 @@ echo "<script src='/resources/chartjs/chartjs-adapter-date-fns.bundle.min.js'></
 
 echo "<h3>".$text['title-reseller_dashboard']."</h3>";
 
+echo "<div class='heading'><b>".$text['title-graph-hours']."</b></div>";
+echo "<div ><canvas height='100px' id='HourChart'></canvas></div>";
+echo "<br><hr><br>";
+echo "<div class='heading'><b>".$text['title-graph-days']."</b></div>";
+echo "<div ><canvas height='100px' id='DayChart'></canvas></div>";
 
+//------------------- hourly data
+
+$hourly_data = $domainStatService->getHourlyChartData();
+//-----------------------------------------------------
+//----------------------daily calls
+$daily_data = $domainStatService->getDailyChartData();
+
+echo "<br><hr><br>";
 echo "<div class='action_bar' id='action_bar'>";
 echo "<div class='heading'><b>".$text['title-domain_statistics']."</b></div>";
 echo "<div class='actions'>";
 echo button::create(
-        ['type'=>'button','label'=>$text['button-export'],'icon'=>$_SESSION['theme']['button_icon_download'],
-            'id'=>'btn_export','link'=>'export.php']);
+    ['type'=>'button','label'=>$text['button-export'],'icon'=>$_SESSION['theme']['button_icon_download'],
+        'id'=>'btn_export','link'=>'export.php']);
 echo "</div>";
 echo "<div style='clear: both;'></div>";
 echo "</div>";
@@ -165,21 +178,6 @@ echo "<td><b>".$total['cc_count']."</b></td>";
 echo "<td><b>".$total['vmails_count']."</b></td>";
 echo "</tr>";
 echo "</table>";
-
-echo "<br><hr><br>";
-
-echo "<div class='heading'><b>".$text['title-graph-hours']."</b></div>";
-echo "<div ><canvas height='100px' id='HourChart'></canvas></div>";
-echo "<br><hr><br>";
-echo "<div class='heading'><b>".$text['title-graph-days']."</b></div>";
-echo "<div ><canvas height='100px' id='DayChart'></canvas></div>";
-
-//------------------- hourly data
-
-$hourly_data = $domainStatService->getHourlyChartData();
-//-----------------------------------------------------
-//----------------------daily calls
-$daily_data = $domainStatService->getDailyChartData();
 
 require_once "resources/footer.php";
 ?>
